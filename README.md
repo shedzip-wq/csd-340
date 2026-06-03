@@ -1,2 +1,5 @@
-# csd-340
-Homework and Assignments for CSD-340
+# CSD 340 Web Development with HTML and CSS
+
+## Contributors
+- Instructor: Professor Melony Sue Sampson
+- Sheridan Dela Cruz
