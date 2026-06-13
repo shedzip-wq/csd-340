@@ -1,0 +1,62 @@
+/*
+  Sheridan Dela Cruz
+  CSD 340
+  Assignment 3.3
+  June 10, 2026
+  Description: CSS styling for Module 3.3 layout, lists, and link behavior.
+*/
+
+/* Center the main page title */
+h1 {
+    text-align: center;
+}
+
+/* Left and right columns for side‑by‑side layout */
+.left, .right {
+    width: 45%;
+    float: left;
+}
+
+/* Add spacing between the two columns */
+.right {
+    margin-left: 5%;
+}
+
+/* Bottom div: full width, spacing, and right float for the link */
+.bottom {
+    width: 100%;
+    margin-top: 60%;
+    float: right;
+    margin-bottom: 20px;
+}
+
+/* Style for section headers */
+h3 {
+    font-weight: 500;
+}
+
+/* Shared list styling */
+ol, ul {
+    padding: 10px;
+    list-style-position: inside;
+}
+
+/* Ordered list: solid border and rounded corners */
+ol {
+    border: 1px solid red;
+    border-radius: 15px;
+    font-weight: 300;
+}
+
+/* Unordered list: dashed border, roman numerals, rounded corners */
+ul {
+    border: 1px dashed red;
+    border-radius: 15px;
+    list-style-type: upper-roman;
+    font-weight: 300;
+}
+
+/* Hover effect for links */
+a:hover {
+    text-decoration: underline;
+}
