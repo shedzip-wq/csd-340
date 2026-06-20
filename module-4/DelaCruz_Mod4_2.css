@@ -1,0 +1,83 @@
+/*
+  Sheridan Dela Cruz
+  CSD 340
+  Assignment 4.2
+  June 18, 2026
+  Description: Styles for the 3‑image book gallery using CSS Grid.
+*/
+
+/* Main container styling */
+#container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+/* Page heading styling */
+h1 {
+    text-align: center;
+    color: rgba(50, 50, 200, 0.8);
+}
+
+/* Grid layout for the image gallery */
+#image-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0; 
+    justify-items: center;
+    align-items: start;
+    margin-top: 40px;
+
+    border: 2px solid blue;  
+    padding: 0;            
+    border-radius: 6px;       
+}
+
+/* Individual gallery card styling */
+.gallery-item {
+    padding: 20px;
+    text-align: center;
+    border-right: 2px solid blue; 
+}
+
+.gallery-item:last-child {
+    border-right: none;
+}
+
+/* Book title styling */
+h3 {
+    color: rgba(200, 50, 50, 0.8);
+}
+
+/* Center figure content */
+figure {
+    text-align: center;
+}
+
+/* Caption styling */
+figcaption {
+    font-style: italic;
+    font-size: 0.75em;
+    color: rgba(50, 150, 50, 0.8);
+}
+
+/* Image sizing */
+img {
+    width: 200px;
+    height: 300px;
+    object-fit:cover;
+    border-radius: 4px;
+}
+
+/* Back link alignment */
+.back-link-wrapper {
+    display: block;
+    width: 100%;
+    text-align: right;
+    margin-top: 20px;
+}
+
+.back-link-wrapper a {
+    color: blue;
+    text-decoration: underline;
+    font-weight: bold;
+}
