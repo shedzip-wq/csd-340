@@ -1,0 +1,257 @@
+<!--
+  Sheridan Dela Cruz
+  CSD 340
+  Module 11.2
+  July 30, 2026
+  Description: A JavaScript task manager that lets users add, delete, and sort tasks with inline notifications.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSD 340 Web Development with HTML and CSS</title>
+
+    <!-- 
+        CSS Styles:
+        Defines layout, colors, spacing, and visual design for the page,
+        including instructions box, task container, buttons, task list,
+        and inline status notifications.
+    -->
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+         /* Instructions box styling */
+        .instructions {
+            background: #ffffff;
+            border-left: 6px solid #4a90e2;
+            padding: 20px;
+            margin: 0 auto 30px auto;
+            width: 70%;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            border-radius: 6px;
+        }
+
+        .instructions h2 {
+            margin-top: 0;
+            color: #4a90e2;
+        }
+
+        /* Main task container styling */
+        .task-container {
+            background: #ffffff;
+            width: 70%;
+            margin: 0 auto;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .task-container label {
+            font-weight: bold;
+        }
+
+        /* Input field styling */
+        input[type="text"] {
+            width: 90%;
+            padding: 10px;
+            margin-top: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        /* Button styling */
+        .btn-group button {
+            padding: 10px 18px;
+            margin-right: 10px;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            cursor: pointer;
+            color: white;
+        }
+
+        .btn-add { background: #2ecc71; }
+        .btn-delete { background: #e74c3c; }
+        .btn-sort { background: #3498db; }
+
+        #todoList {
+            margin-top: 20px;
+            padding: 15px;
+            background: #fafafa;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+
+        #todoList ul {
+            padding-left: 20px;
+        }
+
+        /* Inline status message styling */
+        .status {
+            margin-top: 15px;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-weight: bold;
+            display: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .status.show {
+            display: block;
+            opacity: 1;
+        }
+
+        .status.hide {
+            opacity: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Assignment 11.2: JavaScript - Part 3</h1>
+
+    <!-- 
+        Instructions Section:
+        Explains how the user interacts with the task manager:
+        adding, deleting, and sorting tasks.
+    -->
+    <div class="instructions">
+        <h2>How to Use This Page</h2>
+        <p>Welcome! This mini‑app helps you build a list of tasks. Follow the steps below:</p>
+        <ul>
+            <li>Type a task into the box.</li>
+            <li>Click <strong>Add</strong> to save it to your list.</li>
+            <li>Click <strong>Delete Last Entry</strong> to remove the most recent item.</li>
+            <li>Click <strong>Sort</strong> to alphabetize your list.</li>
+        </ul>
+        <p>Your task list will appear below the buttons.</p>
+    </div>
+
+    <!-- 
+        Task Input and Buttons:
+        Contains the text box for entering tasks and the three main controls:
+        Add, Delete Last Entry, and Sort.
+        Also includes the status message area and the task list display.
+    -->
+    <div class="task-container">
+        <label for="itemInput">Enter a task:</label>
+        <input type="text" id="itemInput" placeholder="Example: Finish homework">
+
+        <div class="btn-group">
+            <button class="btn-add" onclick="addItem()">Add</button>
+            <button class="btn-delete" onclick="deleteLast()">Delete Last Entry</button>
+            <button class="btn-sort" onclick="sortItems()">Sort</button>
+        </div>
+
+        <div id="statusMessage" class="status"></div>
+
+        <div id="todoList"></div>
+    </div>
+
+     <!-- 
+        JavaScript Logic:
+        Handles adding tasks, deleting tasks, sorting tasks,
+        updating the display, showing inline notifications,
+        and allowing Enter key submission.
+    -->
+    <script>
+        let items = [];
+
+        // Shows a temporary inline notification with fade-in/fade-out effect
+        function showStatus(message, color) {
+            const status = document.getElementById("statusMessage");
+            status.style.background = color;
+            status.innerText = message;
+
+            status.classList.remove("hide");
+            status.classList.add("show");
+
+            setTimeout(() => {
+                status.classList.remove("show");
+                status.classList.add("hide");
+            }, 2000);
+        }
+
+        // Renders the current list of tasks on the page
+        function displayItems() {
+            let listDiv = document.getElementById("todoList");
+
+            if (items.length === 0) {
+                listDiv.innerHTML = "<p>No tasks yet. Add something above!</p>";
+                return;
+            }
+
+            let html = "<ul>";
+            for (let i = 0; i < items.length; i++) {
+                html += "<li>" + items[i] + "</li>";
+            }
+            html += "</ul>";
+
+            listDiv.innerHTML = html;
+        }
+
+        // Adds a new task to the list and updates the display
+        function addItem() {
+            let item = document.getElementById("itemInput").value;
+
+            if (item.trim() === "") {
+                showStatus("Please enter a task first.", "#e67e22");
+                return;
+            }
+
+            items.push(item);
+            showStatus("Added: " + item, "#2ecc71");
+            displayItems();
+            document.getElementById("itemInput").value = "";
+        }
+
+        // Deletes the last task in the list
+        function deleteLast() {
+            if (items.length === 0) {
+                showStatus("There are no tasks to delete.", "#e74c3c");
+                return;
+            }
+
+            let removed = items.pop();
+            showStatus("Deleted: " + removed, "#e74c3c");
+            displayItems();
+        }
+
+        // Sorts all tasks alphabetically
+        function sortItems() {
+            if (items.length === 0) {
+                showStatus("Nothing to sort yet.", "#3498db");
+                return;
+            }
+
+            items.sort();
+            showStatus("Your list has been sorted!", "#3498db");
+            displayItems();
+        }
+
+        // Allows the user to press Enter to add a task
+        document.getElementById("itemInput").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault(); 
+                addItem();
+            }
+        });
+    </script>
+
+</body>
+</html>
